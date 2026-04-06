@@ -1,0 +1,135 @@
+.game {
+  min-height: 100vh;
+  padding: .8rem;
+  background: radial-gradient(ellipse at top, #071a2e, #05080f 65%);
+}
+
+.g-hdr {
+  text-align: center;
+  padding: .3rem 0 .8rem;
+  border-bottom: 1px solid var(--brd);
+  margin-bottom: .8rem;
+  position: relative;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  color: #1e3d55;
+  cursor: pointer;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: .7rem;
+  letter-spacing: 2px;
+  position: absolute;
+  left: 0;
+  top: .3rem;
+  transition: color .2s;
+  padding: .2rem;
+}
+.back-btn:hover { color: var(--c); }
+
+.g-badge {
+  display: inline-block;
+  font-family: 'Orbitron', sans-serif;
+  font-size: .52rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  padding: .2rem .7rem;
+  margin-bottom: .4rem;
+}
+
+.g-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(.85rem, 3vw, 1.4rem);
+  color: var(--c);
+  font-weight: 700;
+}
+
+.g-sub {
+  color: #1e3d55;
+  font-size: .72rem;
+  margin-top: .2rem;
+}
+
+/* two-column layout on wider screens */
+.layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: .8rem;
+  max-width: 960px;
+  margin: 0 auto;
+}
+@media (min-width: 700px) {
+  .layout { grid-template-columns: auto 1fr; }
+}
+
+/* progress bar */
+.prog {
+  height: 2px;
+  background: #0d1e2e;
+  margin: .4rem 0 0;
+  overflow: hidden;
+}
+.prog-f {
+  height: 100%;
+  background: linear-gradient(90deg, var(--c), var(--g));
+  transition: width .45s;
+}
+.prog-label {
+  font-family: 'Orbitron', sans-serif;
+  font-size: .52rem;
+  letter-spacing: 2px;
+  color: #1e3d55;
+}
+.prog-count {
+  font-family: 'Orbitron', sans-serif;
+  font-size: .52rem;
+  color: var(--c);
+}
+
+/* word chips */
+.chips { display: flex; flex-wrap: wrap; gap: .3rem; margin: .5rem 0; }
+.chip {
+  font-family: 'Orbitron', sans-serif;
+  font-size: .58rem;
+  letter-spacing: 1px;
+  padding: .22rem .5rem;
+  border: 1px solid var(--brd);
+  color: #2d5a7a;
+  transition: .25s;
+}
+.chip.found {
+  border-color: var(--g);
+  color: var(--g);
+  background: rgba(57, 255, 20, .04);
+  text-decoration: line-through;
+}
+
+.ok-tag {
+  display: inline-block;
+  font-size: .58rem;
+  letter-spacing: 2px;
+  color: var(--g);
+  border: 1px solid rgba(57, 255, 20, .35);
+  padding: .12rem .45rem;
+  background: rgba(57, 255, 20, .04);
+  margin-top: .4rem;
+}
+
+/* clues */
+.clue {
+  display: flex;
+  gap: .45rem;
+  align-items: flex-start;
+  margin: .35rem 0;
+  font-size: .76rem;
+  color: #5a8aaa;
+  line-height: 1.5;
+}
+.clue-n {
+  color: var(--r);
+  font-family: 'Orbitron', sans-serif;
+  font-size: .55rem;
+  min-width: 16px;
+  padding-top: 2px;
+}
