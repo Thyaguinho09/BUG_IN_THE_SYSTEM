@@ -1,0 +1,99 @@
+.result {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: radial-gradient(ellipse at 50% 20%, #071a2e, #05080f 65%);
+}
+
+.res-case {
+  font-family: 'Orbitron', sans-serif;
+  font-size: .55rem;
+  letter-spacing: 6px;
+  color: #1e3d55;
+  margin-bottom: .4rem;
+}
+
+.res-big {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(1.8rem, 6vw, 3.5rem);
+  font-weight: 900;
+  color: var(--g);
+  text-shadow: 0 0 30px var(--g);
+  letter-spacing: 5px;
+  text-align: center;
+  animation: glow 2s ease-in-out infinite;
+}
+
+.res-sub {
+  color: #1e3d55;
+  letter-spacing: 4px;
+  font-size: .6rem;
+  margin: .4rem 0 1rem;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.res-card {
+  border: 1px solid rgba(57, 255, 20, .4);
+  background: var(--surf);
+  padding: 1.4rem;
+  max-width: 440px;
+  width: 100%;
+  margin: 0 0 1.4rem;
+  box-shadow: 0 0 25px rgba(57, 255, 20, .06);
+}
+
+.res-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: .6rem 0;
+  border-bottom: 1px solid #0d1e2e;
+}
+.res-row:last-child { border: none; }
+
+.res-lbl {
+  font-family: 'Orbitron', sans-serif;
+  font-size: .52rem;
+  letter-spacing: 3px;
+  color: #1e3d55;
+}
+.res-val {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  color: var(--y);
+  font-size: .9rem;
+}
+
+.btn-row {
+  display: flex;
+  gap: .7rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.btn2 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  padding: .7rem 1.6rem;
+  background: transparent;
+  cursor: pointer;
+  transition: all .25s;
+  border: 1px solid;
+}
+.btn2.a { border-color: var(--c); color: var(--c); }
+.btn2.a:hover { background: var(--c); color: #05080f; }
+.btn2.b { border-color: var(--brd); color: #2d5a7a; }
+.btn2.b:hover { border-color: #2d5a7a; }
+
+.res-end {
+  margin-top: 1.2rem;
+  color: #1e3d55;
+  font-size: .6rem;
+  letter-spacing: 3px;
+  text-align: center;
+}
