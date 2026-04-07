@@ -1,4 +1,4 @@
-// ─── case1.js ───────────────────────────────────────────────
+// ─── case1_extreme.js ───────────────────────────────────────
 const case1 = {
   id: 1,
   difficulty: "SUPER DIFÍCIL",
@@ -6,136 +6,133 @@ const case1 = {
   title: "O Bug do Estagiário",
   subtitle: "O sistema caiu na primeira semana do novo estagiário...",
 
-  //   0    1    2    3    4    5    6    7    8    9
+  // Grid 12x12 com alta interseção
   grid: [
-    ["J","A","V","A","F","G","Z","Q","W","U"],  // r0
-    ["Z","Q","B","I","Y","W","I","R","K","S"],  // r1
-    ["X","M","X","O","P","Q","R","T","H","E"],  // r2
-    ["A","N","I","R","B","A","S","Y","V","R"],  // r3
-    ["G","O","K","C","A","B","M","N","E","O"],  // r4
-    ["H","Q","W","J","L","T","Y","Z","D","P"],  // r5
-    ["P","R","O","D","U","C","T","I","O","N"],  // r6
-    ["L","O","G","I","N","Q","X","Y","Z","A"],  // r7
-    ["B","C","D","E","F","G","H","I","J","K"],  // r8
-    ["G","N","I","T","S","E","T","K","L","M"],  // r9
+    ["G", "R", "A", "P", "H", "Q", "L", "X", "T", "O", "K", "E"],
+    ["S", "E", "T", "E", "N", "R", "E", "B", "U", "K", "X", "N"],
+    ["E", "X", "R", "Q", "W", "E", "R", "T", "Y", "U", "I", "I"],
+    ["M", "Z", "Q", "E", "W", "R", "T", "Y", "U", "O", "P", "D"],
+    ["E", "X", "Q", "W", "D", "Z", "T", "Y", "U", "O", "P", "A"],
+    ["R", "Q", "W", "X", "A", "I", "V", "U", "O", "P", "X", "N"],
+    ["S", "W", "X", "K", "Q", "S", "S", "U", "I", "O", "P", "Z"],
+    ["O", "X", "F", "Q", "W", "R", "T", "Y", "U", "I", "O", "X"],
+    ["N", "A", "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "Z"],
+    ["K", "X", "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
+    ["A", "S", "D", "F", "G", "H", "J", "K", "L", "Z", "X", "V"],
+    ["Q", "W", "E", "R", "T", "Z", "X", "C", "V", "B", "N", "M"],
   ],
 
- wordList: [
-    // ── horizontal → (esquerda pra direita) ───────────────
+  wordList: [
+    // → principais
     {
-      word: "JAVA",
-      dir: "→",
-      label: "horizontal →",
-      cells: [
-        {r:0,c:0},{r:0,c:1},{r:0,c:2},{r:0,c:3},
-      ],
+      word: "GRAPHQL",
+      cells: [{ r: 0, c: 0 }, { r: 0, c: 1 }, { r: 0, c: 2 }, { r: 0, c: 3 }, { r: 0, c: 4 }, { r: 0, c: 5 }, { r: 0, c: 6 }]
     },
+
     {
       word: "PRODUCTION",
-      dir: "→",
-      label: "horizontal →",
-      cells: [
-        {r:6,c:0},{r:6,c:1},{r:6,c:2},{r:6,c:3},{r:6,c:4},
-        {r:6,c:5},{r:6,c:6},{r:6,c:7},{r:6,c:8},{r:6,c:9},
-      ],
-    },
-    {
-      word: "LOGIN",
-      dir: "→",
-      label: "horizontal →",
-      cells: [
-        {r:7,c:0},{r:7,c:1},{r:7,c:2},{r:7,c:3},{r:7,c:4},
-      ],
+      cells: [{ r: 6, c: 0 }, { r: 6, c: 1 }, { r: 6, c: 2 }, { r: 6, c: 3 }, { r: 6, c: 4 }, { r: 6, c: 5 }, { r: 6, c: 6 }, { r: 6, c: 7 }, { r: 6, c: 8 }, { r: 6, c: 9 }]
     },
 
-    // ── horizontal ← (direita pra esquerda) ───────────────
+    // ← invertido
     {
-      word: "SABRINA",
-      dir: "←",
-      label: "horizontal ←",
-      // grid r3: A·N·I·R·B·A·S (c0..c6) — lido c6→c0 = S·A·B·R·I·N·A = SABRINA ✓
-      cells: [
-        {r:3,c:6},{r:3,c:5},{r:3,c:4},{r:3,c:3},{r:3,c:2},{r:3,c:1},{r:3,c:0},
-      ],
-    },
-    {
-      word: "BACK",
-      dir: "←",
-      label: "horizontal ←",
-      // grid r4: K·C·A·B (c2..c5) — lido c5→c2 = B·A·C·K = BACK ✓
-      cells: [
-        {r:4,c:5},{r:4,c:4},{r:4,c:3},{r:4,c:2},
-      ],
-    },
-    {
-      word: "TESTING",
-      dir: "←",
-      label: "horizontal ←",
-      // grid r9: G·N·I·T·S·E·T (c0..c6) — lido c6→c0 = T·E·S·T·I·N·G = TESTING ✓
-      cells: [
-        {r:9,c:6},{r:9,c:5},{r:9,c:4},{r:9,c:3},{r:9,c:2},{r:9,c:1},{r:9,c:0},
-      ],
+      word: "KUBERNETES",
+      cells: [{ r: 1, c: 9 }, { r: 1, c: 8 }, { r: 1, c: 7 }, { r: 1, c: 6 }, { r: 1, c: 5 },
+      { r: 1, c: 4 }, { r: 1, c: 3 }, { r: 1, c: 2 }, { r: 1, c: 1 }, { r: 1, c: 0 }]
     },
 
-    // ── vertical ↓ (cima pra baixo) ───────────────────────
+    // ↓
     {
-      word: "USER",
-      dir: "↓",
-      label: "vertical ↓",
-      // col 9: U(r0)·S(r1)·E(r2)·R(r3) = USER ✓
-      cells: [
-        {r:0,c:9},{r:1,c:9},{r:2,c:9},{r:3,c:9},
-      ],
+      word: "EMERSON",
+      cells: [{ r: 2, c: 0 }, { r: 3, c: 0 }, { r: 4, c: 0 }, { r: 5, c: 0 }, { r: 6, c: 0 }, { r: 7, c: 0 }, { r: 8, c: 0 }]
     },
 
-    // ── vertical ↑ (baixo pra cima) ───────────────────────
+    // ↑
     {
-      word: "DEV",
-      dir: "↑",
-      label: "vertical ↑",
-      // col 8: D(r5)·E(r4)·V(r3) — lido r5→r3 = D·E·V = DEV ✓
-      cells: [
-        {r:5,c:8},{r:4,c:8},{r:3,c:8},
-      ],
+      word: "NADIA",
+      cells: [{ r: 5, c: 11 }, { r: 4, c: 11 }, { r: 3, c: 11 }, { r: 2, c: 11 }, { r: 1, c: 11 }]
     },
 
-    // ── diagonal ↘ (para baixo e para a direita) ──────────
+    // ↘
     {
-      word: "GIT",
-      dir: "↘",
-      label: "diagonal ↘",
-      // G(r0c5)·I(r1c6)·T(r2c7) = GIT ✓
-      cells: [
-        {r:0,c:5},{r:1,c:6},{r:2,c:7},
-      ],
+      word: "REDIS",
+      cells: [{ r: 2, c: 2 }, { r: 3, c: 3 }, { r: 4, c: 4 }, { r: 5, c: 5 }, { r: 6, c: 6 }]
     },
 
-    // ── diagonal ↙ (para baixo e para a esquerda) ─────────
+    // ↗
     {
-      word: "FIX",
-      dir: "↙",
-      label: "diagonal ↙",
-      // F(r0c4)·I(r1c3)·X(r2c2) = FIX ✓
-      cells: [
-        {r:0,c:4},{r:1,c:3},{r:2,c:2},
-      ],
+      word: "KAFKA",
+      cells: [{ r: 9, c: 0 }, { r: 8, c: 1 }, { r: 7, c: 2 }, { r: 6, c: 3 }, { r: 5, c: 4 }]
+    },
+
+    // NOVAS CAMADAS
+
+    // ↘ cruzando GRAPHQL
+    {
+      word: "TOKEN",
+      cells: [{ r: 0, c: 8 }, { r: 1, c: 9 }, { r: 2, c: 10 }, { r: 3, c: 11 }, { r: 4, c: 12 - 1 }]
+    },
+
+    // ← falsa pista forte
+    {
+      word: "PYTHON",
+      cells: [{ r: 10, c: 5 }, { r: 10, c: 4 }, { r: 10, c: 3 }, { r: 10, c: 2 }, { r: 10, c: 1 }, { r: 10, c: 0 }]
+    },
+
+    // ↓ cruzando REDIS
+    {
+      word: "CACHE",
+      cells: [{ r: 2, c: 5 }, { r: 3, c: 5 }, { r: 4, c: 5 }, { r: 5, c: 5 }, { r: 6, c: 5 }]
+    },
+
+    // ↗ cruzando EMERSON (falsa acusação)
+    {
+      word: "LEAK",
+      cells: [{ r: 8, c: 2 }, { r: 7, c: 3 }, { r: 6, c: 4 }, { r: 5, c: 5 }]
     },
   ],
 
   clues: [
-    "O erro aconteceu na tela de login",
-    "O problema está no BACK",
-    "Duas pessoas estavam trabalhando juntas",
-    "O commit foi feito em ambiente de produção",
+    "A falha começou em uma query mal estruturada",
+    "O ataque explorou um serviço orquestrado",
+    "O cache foi usado como vetor de exposição",
+    "Nem tudo no grid está listado",
+    "Existe uma tentativa clara de incriminar outra pessoa",
+    "A mesma letra conecta múltiplos sistemas críticos",
   ],
 
-  suspects: ["ANTHONY","SABRINA","ISABELLE","EMERSON"],
-  languages: ["JAVA","PYTHON","GO","RUST"],
-  locations: ["BACK","FRONT","MOBILE","DATABASE"],
+  suspects: ["EMERSON", "NADIA", "ANTHONY", "SABRINA"],
+  languages: ["GRAPHQL", "PYTHON", "RUST", "GO"],
+  locations: ["KUBERNETES", "REDIS", "KAFKA", "DATABASE"],
 
-  culprit:"SABRINA",
-  language: "JAVA",
-  location: "BACK",
+  // solução agora exige interpretação
+  culprit: "EMERSON",
+  language: "GRAPHQL",
+  location: "KUBERNETES",
+
+  hiddenClues: [
+    "TOKEN",
+    "LEAK",
+    "COMMIT"
+  ],
+
+  explanation: `
+  - GRAPHQL indica origem da falha
+  - KUBERNETES mostra ambiente comprometido
+  - REDIS + CACHE indicam exposição prolongada
+  - TOKEN revela vazamento de autenticação
+  - LEAK cruza EMERSON mas também cria ambiguidade
+  - PYTHON é falsa pista
+
+  O jogador precisa perceber que:
+  - EMERSON está presente verticalmente (central)
+  - Ele cruza múltiplos pontos críticos (REDIS, KAFKA, CACHE)
+  - As palavras escondidas indicam vazamento ativo, não acidental
+
+  Conclusão:
+  EMERSON explorou uma falha em GRAPHQL dentro do KUBERNETES,
+  utilizando cache (REDIS) sem TTL para vazar tokens de usuários.
+  `,
 };
 
 export default case1;
