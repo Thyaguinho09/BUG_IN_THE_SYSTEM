@@ -1,6 +1,6 @@
 const case3 = {
   id: 3,
-  difficulty: "INTERMEDIÁRIO",
+  difficulty: "DIFICIL",
   diffColor: "#ffd600",
   title: "O Deploy de Sexta-feira",
   subtitle: "Ninguém faz deploy na sexta. Alguém fez...",

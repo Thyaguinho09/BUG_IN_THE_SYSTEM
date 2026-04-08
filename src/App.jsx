@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./styles/global.css";
 import PUZZLES from "./data/index";
 import IntroScreen  from "./screens/IntroScreen";
@@ -9,13 +9,55 @@ export default function App() {
   const [screen, setScreen] = useState("intro");
   const [pidx, setPidx]     = useState(0);
 
+  // 👉 controle de progresso
+  const [progress, setProgress] = useState(
+    Number(localStorage.getItem("progress")) || 0
+  );
+
+  // 👉 salva progresso no navegador
+  useEffect(() => {
+    localStorage.setItem("progress", progress);
+  }, [progress]);
+
   const puzzle = PUZZLES[pidx];
 
   return (
     <>
-      {screen === "intro"  && <IntroScreen onStart={(idx) => { setPidx(idx); setScreen("game"); }} />}
-      {screen === "game"   && <GameScreen  puzzle={puzzle} onBack={() => setScreen("intro")} onSolve={() => setScreen("result")} />}
-      {screen === "result" && <ResultScreen puzzle={puzzle} pidx={pidx} onNext={() => { setPidx(i => i+1); setScreen("game"); }} onBack={() => setScreen("intro")} />}
+      {screen === "intro"  && (
+        <IntroScreen 
+          progress={progress}
+          onStart={(idx) => { 
+            if (idx <= progress) {
+              setPidx(idx); 
+              setScreen("game"); 
+            }
+          }} 
+        />
+      )}
+
+      {screen === "game"   && (
+        <GameScreen  
+          puzzle={puzzle} 
+          onBack={() => setScreen("intro")} 
+          onSolve={() => {
+            // 👉 libera próxima fase
+            setProgress((prev) => Math.max(prev, pidx + 1));
+            setScreen("result");
+          }} 
+        />
+      )}
+
+      {screen === "result" && (
+        <ResultScreen 
+          puzzle={puzzle} 
+          pidx={pidx} 
+          onNext={() => { 
+            setPidx(i => i + 1); 
+            setScreen("game"); 
+          }} 
+          onBack={() => setScreen("intro")} 
+        />
+      )}
     </>
   );
 }

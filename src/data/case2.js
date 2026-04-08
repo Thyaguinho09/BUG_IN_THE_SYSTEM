@@ -1,7 +1,7 @@
 // ─── case2.js (grid totalmente preenchido) ──────────────────
 const case2 = {
   id: 2,
-  difficulty: "INTERMEDIÁRIO",
+  difficulty: "MEDIO",
   diffColor: "#ffd600",
   title: "A Queda do Servidor",
   subtitle: "O banco de dados parou de responder às 03h da manhã...",
@@ -53,10 +53,6 @@ const case2 = {
     // invertido ←
     { word: "QUERY",
       cells: [{r:7,c:4},{r:7,c:3},{r:7,c:2},{r:7,c:1},{r:7,c:0}] },
-
-    // vertical ↓
-    { word: "AUTH",
-      cells: [{r:8,c:0},{r:7,c:0},{r:6,c:0},{r:5,c:0}] },
   ],
 
   clues: [

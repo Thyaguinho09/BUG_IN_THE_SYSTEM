@@ -4,7 +4,8 @@ export default function IntroScreen({ onStart }) {
   return (
     <div className="intro">
       <div className="logo">BUG<em> In The System</em></div>
-      <div className="logo-sub">CAÇA-PALAVRAS DE MISTÉRIO EM TI</div>
+      <div className="logo-sub"
+      style={{color: "#0245ff"}}>CAÇA-PALAVRAS DE MISTÉRIO EM TI</div>
 
       <div className="cards">
         {PUZZLES.map((p, i) => (
@@ -18,7 +19,7 @@ export default function IntroScreen({ onStart }) {
         ))}
       </div>
 
-      <div style={{ fontSize: ".6rem", color: "#0d1e30", letterSpacing: "3px" }}>
+      <div style={{ fontSize: ".6rem", color: "#0245ff", letterSpacing: "3px" }}>
         ARRASTE NA GRADE PARA MARCAR PALAVRAS
       </div>
     </div>
