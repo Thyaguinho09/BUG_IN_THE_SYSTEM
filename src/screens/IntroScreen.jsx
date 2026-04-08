@@ -1,22 +1,59 @@
 import PUZZLES from "../data/index";
 
-export default function IntroScreen({ onStart }) {
+export default function IntroScreen({ onStart, progress }) {
   return (
     <div className="intro">
-      <div className="logo">BUG<em> In The System</em></div>
-      <div className="logo-sub"
-      style={{color: "#0245ff"}}>CAÇA-PALAVRAS DE MISTÉRIO EM TI</div>
+      <div className="logo">
+        BUG<em> In The System</em>
+      </div>
+
+      <div className="logo-sub" style={{ color: "#0245ff" }}>
+        CAÇA-PALAVRAS DE MISTÉRIO EM TI
+      </div>
 
       <div className="cards">
-        {PUZZLES.map((p, i) => (
-          <div key={p.id} className="card" onClick={() => onStart(i)}>
-            <div className="card-n">0{p.id}</div>
-            <div className="card-d" style={{ color: p.diffColor }}>{p.difficulty}</div>
-            <div className="card-t">{p.title}</div>
-            <div className="card-s">{p.subtitle}</div>
-            <div className="card-wc">{p.wordList.length} PALAVRAS · CLIQUE PARA JOGAR</div>
-          </div>
-        ))}
+        {PUZZLES.map((p, i) => {
+
+          // 👉 verifica se está bloqueado
+          const locked = i > progress;
+
+          return (
+            <div
+              key={p.id}
+
+              // 👉 adiciona classe se estiver bloqueado
+              className={`card ${locked ? "locked" : ""}`}
+
+              // 👉 impede clique se bloqueado
+              onClick={() => {
+                if (!locked) onStart(i);
+              }}
+            >
+              <div className="card-n">0{p.id}</div>
+
+              <div 
+                className="card-d" 
+                style={{ color: p.diffColor }}
+              >
+                {p.difficulty}
+              </div>
+
+              <div className="card-t">{p.title}</div>
+              <div className="card-s">{p.subtitle}</div>
+
+              <div className="card-wc">
+                {p.wordList.length} PALAVRAS · CLIQUE PARA JOGAR
+              </div>
+
+              {/* 👉 overlay visual de bloqueado */}
+              {locked && (
+                <div className="lock-overlay">
+                  🔒 BLOQUEADO
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
 
       <div style={{ fontSize: ".6rem", color: "#0245ff", letterSpacing: "3px" }}>
