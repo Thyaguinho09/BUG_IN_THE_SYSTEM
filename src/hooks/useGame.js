@@ -16,14 +16,29 @@ export function getLineCells(r0, c0, r1, c1) {
   return cells;
 }
 
+// Normaliza uma sequência de células para forma canônica
+// (garante que sempre começa pelo menor r, ou menor c se r igual)
+function normalizeCells(cells) {
+  const first = cells[0];
+  const last = cells[cells.length - 1];
+  const shouldReverse =
+    last.r < first.r ||
+    (last.r === first.r && last.c < first.c);
+  return shouldReverse ? [...cells].reverse() : cells;
+}
+
+function cellsEqual(a, b) {
+  if (a.length !== b.length) return false;
+  return a.every((cell, i) => cell.r === b[i].r && cell.c === b[i].c);
+}
+
 export default function useGame(puzzle) {
   const [foundWords, setFoundWords] = useState([]);
-  const [dragCells, setDragCells]   = useState([]);
-  const [dragging, setDragging]     = useState(false);
-  const [flash, setFlash]           = useState(null);
+  const [dragCells, setDragCells] = useState([]);
+  const [dragging, setDragging] = useState(false);
+  const [flash, setFlash] = useState(null);
   const startCell = useRef(null);
 
-  // Reset when puzzle changes
   useEffect(() => {
     setFoundWords([]);
     setDragCells([]);
@@ -38,17 +53,42 @@ export default function useGame(puzzle) {
       return e ? e.cells.map(({ r, c }) => cellKey(r, c)) : [];
     })
   );
-  const dragSet  = new Set(dragCells.map(({ r, c }) => cellKey(r, c)));
+  const dragSet = new Set(dragCells.map(({ r, c }) => cellKey(r, c)));
   const allFound = puzzle?.wordList.every((e) => foundWords.includes(e.word)) ?? false;
 
+  // No useGame.js, após allFound:
+  function getHiddenAnswer(puzzle) {
+    if (!puzzle?.hiddenAnswer) return null;
+    const usedCells = new Set(
+      puzzle.wordList.flatMap(e => e.cells.map(({ r, c }) => cellKey(r, c)))
+    );
+    const free = [];
+    for (let r = 0; r < puzzle.grid.length; r++) {
+      for (let c = 0; c < puzzle.grid[r].length; c++) {
+        if (!usedCells.has(cellKey(r, c))) {
+          free.push(puzzle.grid[r][c]);
+        }
+      }
+    }
+    return free.join('').startsWith(puzzle.hiddenAnswer)
+      ? puzzle.hiddenAnswer
+      : null;
+  }
+
   function tryMatch(cells) {
-    if (!puzzle) return null;
+    if (!puzzle || cells.length < 2) return null;
+
+    const normalizedDrag = normalizeCells(cells);
+
     for (const entry of puzzle.wordList) {
       if (foundWords.includes(entry.word)) continue;
       if (entry.cells.length !== cells.length) continue;
-      const fwd = entry.cells.every((ec, i) => ec.r === cells[i].r && ec.c === cells[i].c);
-      const rev = entry.cells.every((ec, i) => ec.r === cells[cells.length - 1 - i].r && ec.c === cells[cells.length - 1 - i].c);
-      if (fwd || rev) return entry.word;
+
+      const normalizedEntry = normalizeCells(entry.cells);
+
+      if (cellsEqual(normalizedDrag, normalizedEntry)) {
+        return entry.word;
+      }
     }
     return null;
   }
