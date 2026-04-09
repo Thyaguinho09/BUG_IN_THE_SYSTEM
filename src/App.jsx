@@ -6,15 +6,18 @@ import GameScreen   from "./screens/GameScreen";
 import ResultScreen from "./screens/ResultScreen";
 
 export default function App() {
+  // 👉 controla qual tela está ativa
   const [screen, setScreen] = useState("intro");
-  const [pidx, setPidx]     = useState(0);
 
-  // 👉 controle de progresso
+  // 👉 índice do puzzle atual
+  const [pidx, setPidx] = useState(0);
+
+  // 👉 progresso salvo (qual fase máxima desbloqueada)
   const [progress, setProgress] = useState(
     Number(localStorage.getItem("progress")) || 0
   );
 
-  // 👉 salva progresso no navegador
+  // 👉 salva no navegador sempre que mudar
   useEffect(() => {
     localStorage.setItem("progress", progress);
   }, [progress]);
@@ -23,38 +26,48 @@ export default function App() {
 
   return (
     <>
-      {screen === "intro"  && (
+      {/* ================= INTRO ================= */}
+      {screen === "intro" && (
         <IntroScreen 
-          progress={progress}
+          progress={progress} // 👉 envia progresso
+          
+          // 👉 só permite entrar se estiver desbloqueado
           onStart={(idx) => { 
             if (idx <= progress) {
-              setPidx(idx); 
-              setScreen("game"); 
+              setPidx(idx);
+              setScreen("game");
             }
           }} 
         />
       )}
 
-      {screen === "game"   && (
+      {/* ================= GAME ================= */}
+      {screen === "game" && (
         <GameScreen  
-          puzzle={puzzle} 
-          onBack={() => setScreen("intro")} 
+          puzzle={puzzle}
+
+          onBack={() => setScreen("intro")}
+
           onSolve={() => {
             // 👉 libera próxima fase
             setProgress((prev) => Math.max(prev, pidx + 1));
+
             setScreen("result");
           }} 
         />
       )}
 
+      {/* ================= RESULT ================= */}
       {screen === "result" && (
         <ResultScreen 
           puzzle={puzzle} 
           pidx={pidx} 
+
           onNext={() => { 
             setPidx(i => i + 1); 
             setScreen("game"); 
           }} 
+
           onBack={() => setScreen("intro")} 
         />
       )}
