@@ -8,11 +8,11 @@ export default function TutorialOverlay({ onClose }) {
           <div className="tut-directions">
             <div className="tut-dir-item">
               <span className="tut-dir-arrow">→</span>
-              <span>Horizontal </span>
+              <span>Horizontal (esq → dir)</span>
             </div>
             <div className="tut-dir-item tut-dir-highlight">
               <span className="tut-dir-arrow">←</span>
-              <span>De trás pra frente</span>
+              <span>De trás pra frente <em>(dir → esq!)</em></span>
             </div>
             <div className="tut-dir-item">
               <span className="tut-dir-arrow">↓</span>
@@ -20,9 +20,16 @@ export default function TutorialOverlay({ onClose }) {
             </div>
             <div className="tut-dir-item tut-dir-highlight">
               <span className="tut-dir-arrow">↘</span>
-              <span>Diagonal</span>
+              <span>Diagonal <em>(novidade!)</em></span>
+            </div>
+            <div className="tut-dir-item tut-dir-highlight">
+              <span className="tut-dir-arrow">↙</span>
+              <span>Diagonal inversa</span>
             </div>
           </div>
+          <p style={{ marginTop: ".8rem", fontSize: ".7rem", color: "#5a8aaa" }}>
+            💡 Dica: se uma palavra não aparecer, tente arrastar no sentido contrário!
+          </p>
         </div>
         <button className="tutorial-modal-btn" onClick={onClose}>ENTENDI — VAMOS LÁ!</button>
       </div>

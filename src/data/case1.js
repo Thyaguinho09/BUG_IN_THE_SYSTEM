@@ -1,3 +1,4 @@
+// ─── case.js ───────────────────────────────────────────────
 const case1 = {
   id: 1,
   difficulty: "FÁCIL",
@@ -18,6 +19,7 @@ const case1 = {
     ["G", "N", "I", "T", "S", "E", "T", "K", "L", "M"], // r9
   ],
   wordList: [
+    // ── horizontal → (esquerda pra direita) ───────────────
     {
       word: "JAVA",
       dir: "→",
@@ -58,10 +60,12 @@ const case1 = {
         { r: 7, c: 4 },
       ],
     },
+    // ── horizontal ← (direita pra esquerda) ───────────────
     {
       word: "SABRINA",
       dir: "←",
       label: "horizontal ←",
+      // grid r3: A·N·I·R·B·A·S (c0..c6) — lido c6→c0 = S·A·B·R·I·N·A = SABRINA ✓
       cells: [
         { r: 3, c: 6 },
         { r: 3, c: 5 },
@@ -76,6 +80,7 @@ const case1 = {
       word: "BACK",
       dir: "←",
       label: "horizontal ←",
+      // grid r4: K·C·A·B (c2..c5) — lido c5→c2 = B·A·C·K = BACK ✓
       cells: [
         { r: 4, c: 5 },
         { r: 4, c: 4 },
@@ -87,6 +92,7 @@ const case1 = {
       word: "TESTING",
       dir: "←",
       label: "horizontal ←",
+      // grid r9: G·N·I·T·S·E·T (c0..c6) — lido c6→c0 = T·E·S·T·I·N·G = TESTING ✓
       cells: [
         { r: 9, c: 6 },
         { r: 9, c: 5 },
@@ -97,10 +103,12 @@ const case1 = {
         { r: 9, c: 0 },
       ],
     },
+    // ── vertical ↓ (cima pra baixo) ───────────────────────
     {
       word: "USER",
       dir: "↓",
       label: "vertical ↓",
+      // col 9: U(r0)·S(r1)·E(r2)·R(r3) = USER ✓
       cells: [
         { r: 0, c: 9 },
         { r: 1, c: 9 },
@@ -108,31 +116,36 @@ const case1 = {
         { r: 3, c: 9 },
       ],
     },
+    // ── vertical ↑ (baixo pra cima) ───────────────────────
     {
       word: "DEV",
       dir: "↑",
       label: "vertical ↑",
+      // col 8: D(r5)·E(r4)·V(r3) — lido r5→r3 = D·E·V = DEV ✓
       cells: [
         { r: 5, c: 8 },
         { r: 4, c: 8 },
         { r: 3, c: 8 },
       ],
     },
+    // ── diagonal ↘ (para baixo e para a direita) ──────────
     {
       word: "GIT",
       dir: "↘",
       label: "diagonal ↘",
+      // G(r0c5)·I(r1c6)·T(r2c7) = GIT ✓
       cells: [
         { r: 0, c: 5 },
         { r: 1, c: 6 },
         { r: 2, c: 7 },
       ],
     },
-
+    // ── diagonal ↙ (para baixo e para a esquerda) ─────────
     {
       word: "FIX",
       dir: "↙",
       label: "diagonal ↙",
+      // F(r0c4)·I(r1c3)·X(r2c2) = FIX ✓
       cells: [
         { r: 0, c: 4 },
         { r: 1, c: 3 },
@@ -149,10 +162,6 @@ const case1 = {
   suspects: ["ANTHONY", "SABRINA", "ISABELLE", "EMERSON"],
   languages: ["JAVA", "PYTHON", "GO", "RUST"],
   locations: ["BACK", "FRONT", "MOBILE", "DATABASE"],
-  culprit: "SABRINA",
-  language: "JAVA",
-  location: "BACK",
-
 
   hiddenAnswer: "SABOTAGEM",
   narrative:
@@ -163,3 +172,4 @@ const case1 = {
 };
 
 export default case1;
+

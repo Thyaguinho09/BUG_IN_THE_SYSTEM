@@ -16,8 +16,6 @@ export function getLineCells(r0, c0, r1, c1) {
   return cells;
 }
 
-// Normaliza uma sequência de células para forma canônica
-// (garante que sempre começa pelo menor r, ou menor c se r igual)
 function normalizeCells(cells) {
   const first = cells[0];
   const last = cells[cells.length - 1];
@@ -37,6 +35,8 @@ export default function useGame(puzzle) {
   const [dragCells, setDragCells] = useState([]);
   const [dragging, setDragging] = useState(false);
   const [flash, setFlash] = useState(null);
+  const [wrongCount, setWrongCount] = useState(0);
+  const [hiddenWordFound, setHiddenWordFound] = useState(false);
   const startCell = useRef(null);
 
   useEffect(() => {
@@ -44,6 +44,8 @@ export default function useGame(puzzle) {
     setDragCells([]);
     setDragging(false);
     setFlash(null);
+    setWrongCount(0);
+    setHiddenWordFound(false);
     startCell.current = null;
   }, [puzzle?.id]);
 
@@ -56,8 +58,8 @@ export default function useGame(puzzle) {
   const dragSet = new Set(dragCells.map(({ r, c }) => cellKey(r, c)));
   const allFound = puzzle?.wordList.every((e) => foundWords.includes(e.word)) ?? false;
 
-  // No useGame.js, após allFound:
-  function getHiddenAnswer(puzzle) {
+  // Check hidden answer from free (unused) cells
+  function getHiddenAnswer() {
     if (!puzzle?.hiddenAnswer) return null;
     const usedCells = new Set(
       puzzle.wordList.flatMap(e => e.cells.map(({ r, c }) => cellKey(r, c)))
@@ -109,7 +111,11 @@ export default function useGame(puzzle) {
     if (!dragging) return;
     const matched = tryMatch(dragCells);
     if (matched) {
-      setFoundWords((prev) => [...prev, matched]);
+      setFoundWords((prev) => {
+        const next = [...prev, matched];
+        // Check if hidden word is detectable via drag selection match
+        return next;
+      });
       setFlash(matched);
       setTimeout(() => setFlash(null), 900);
     }
@@ -118,5 +124,50 @@ export default function useGame(puzzle) {
     startCell.current = null;
   }
 
-  return { foundWords, dragCells, dragging, flash, foundSet, dragSet, allFound, startDrag, moveDrag, endDrag };
+  // Check hidden word from drag (user manually spells it out)
+  function checkHiddenWordDrag(cells) {
+    if (!puzzle?.hiddenAnswer || hiddenWordFound) return false;
+    const word = cells.map(({ r, c }) => puzzle.grid[r][c]).join('');
+    if (word === puzzle.hiddenAnswer) {
+      setHiddenWordFound(true);
+      return true;
+    }
+    return false;
+  }
+
+  function endDragWithHiddenCheck() {
+    if (!dragging) return;
+    const matched = tryMatch(dragCells);
+    if (matched) {
+      setFoundWords((prev) => [...prev, matched]);
+      setFlash(matched);
+      setTimeout(() => setFlash(null), 900);
+    } else {
+      // Check if drag spells out the hidden word
+      checkHiddenWordDrag(dragCells);
+    }
+    setDragging(false);
+    setDragCells([]);
+    startCell.current = null;
+  }
+
+  function registerWrongVerdict() {
+    setWrongCount(c => c + 1);
+  }
+
+  return {
+    foundWords,
+    dragCells,
+    dragging,
+    flash,
+    foundSet,
+    dragSet,
+    allFound,
+    wrongCount,
+    hiddenWordFound,
+    startDrag,
+    moveDrag,
+    endDrag: endDragWithHiddenCheck,
+    registerWrongVerdict,
+  };
 }

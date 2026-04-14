@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import useGame from "../hooks/useGame";
-import WordGrid from "../components/WordGrid";
+import WordGrid    from "../components/WordGrid";
 import ProgressBar from "../components/ProgressBar";
-import WordChips from "../components/WordChips";
-import ClueList from "../components/ClueList";
+import WordChips   from "../components/WordChips";
+import ClueList    from "../components/ClueList";
 import VerdictForm from "../components/VerdictForm";
 import TutorialOverlay from "../components/TutorialOverlay";
 import HiddenWordPopup from "../components/HiddenWordPopup";
@@ -12,7 +12,7 @@ import HiddenWordPopup from "../components/HiddenWordPopup";
 const TIME_LIMIT = 180; // 3 minutes for real cases
 
 export default function GameScreen({ puzzle, onBack, onSolve, onTimeout }) {
-  const [answer, setAnswer] = useState({ culprit: "", language: "", location: "" });
+  const [answer, setAnswer]   = useState({ culprit: "", language: "", location: "" });
   const [wrongAns, setWrongAns] = useState(false);
   const [showHint, setShowHint] = useState(false);
   const [timeLeft, setTimeLeft] = useState(puzzle?.isTutorialOnly ? null : TIME_LIMIT);
@@ -20,7 +20,7 @@ export default function GameScreen({ puzzle, onBack, onSolve, onTimeout }) {
   const [showTutorialOverlay, setShowTutorialOverlay] = useState(puzzle?.isTutorial ?? false);
 
   const { foundWords, dragCells, dragging, flash, foundSet, dragSet, allFound,
-    wrongCount, hiddenWordFound, startDrag, moveDrag, endDrag, registerWrongVerdict } =
+          wrongCount, hiddenWordFound, startDrag, moveDrag, endDrag, registerWrongVerdict } =
     useGame(puzzle);
 
   // Reset when puzzle changes
@@ -58,7 +58,7 @@ export default function GameScreen({ puzzle, onBack, onSolve, onTimeout }) {
 
   function handleSubmit() {
     if (
-      answer.culprit === puzzle.culprit &&
+      answer.culprit  === puzzle.culprit &&
       answer.language === puzzle.language &&
       answer.location === puzzle.location
     ) {
@@ -121,10 +121,7 @@ export default function GameScreen({ puzzle, onBack, onSolve, onTimeout }) {
             border: `1px solid ${puzzle.diffColor}44`,
           }}
         >
-          {puzzle.isTutorial
-            ? "TUTORIAL"
-            : `CASO ${puzzle.id} · ${puzzle.difficulty}`
-          }
+          {puzzle.isTutorial ? "" : `CASO ${puzzle.id}`} · {puzzle.difficulty}
         </div>
         <div className="g-title">{puzzle.title}</div>
         <div className="g-sub">{puzzle.subtitle}</div>
