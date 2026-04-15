@@ -88,6 +88,9 @@ const case2 = {
   languages: ["PYTHON", "JAVA", "GO", "RUBY"],
   locations: ["BACKEND", "FRONTEND", "MOBILE", "DEVOPS"],
 
+  hiddenAnswer: "COLAPSO",
+  narrative:
+    "O servidor caiu às 03h porque Emerson executou um método não testado diretamente na DATABASE de produção. O script em Python abriu uma SESSION que nunca foi fechada, esgotando as conexões disponíveis. O DEBUG tardio revelou que o problema era óbvio — mas ninguém tinha monitoramento adequado no ambiente.",
   culprit: "EMERSON",
   language: "PYTHON",
   location: "BACKEND",

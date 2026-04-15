@@ -11,13 +11,13 @@ const case4 = {
   grid: [
   //   0    1    2    3    4    5    6    7    8    9   10   11   12   13   14   15
     ["M", "T", "T", "A", "B", "O", "K", "U", "B", "E", "R", "N", "E", "T", "E", "S"],  // 0
-    ["S", "O", "Z", "W", "G", "E", "M", "J", "Z", "W", "V", "E", "Q", "J", "X", "Z"],  // 1
-    ["A", "K", "N", "G", "R", "A", "P", "H", "Q", "L", "V", "M", "J", "X", "W", "Z"],  // 2
-    ["B", "E", "Z", "G", "W", "Q", "J", "V", "R", "W", "X", "E", "Q", "J", "V", "Z"],  // 3
-    ["O", "N", "W", "V", "O", "X", "Q", "R", "J", "E", "V", "R", "Z", "X", "Q", "J"],  // 4
-    ["M", "X", "Q", "J", "V", "D", "Z", "X", "E", "Q", "D", "S", "V", "W", "Z", "A"],  // 5
-    ["D", "O", "C", "K", "E", "R", "B", "Z", "D", "I", "J", "O", "V", "W", "Z", "I"],  // 6
-    ["A", "X", "Q", "J", "V", "A", "W", "Z", "X", "Q", "J", "N", "S", "W", "Z", "D"],  // 7
+    ["S", "O", "Z", "W", "G", "E", "M", "J", "Z", "W", "O", "E", "Q", "J", "M", "Z"],  // 1
+    ["A", "K", "G", "R", "A", "P", "H", "Q", "L", "S", "V", "M", "J", "X", "O", "Z"],  // 2
+    ["B", "E", "Z", "G", "W", "Q", "J", "V", "R", "W", "X", "E", "Q", "J", "N", "Z"],  // 3
+    ["O", "N", "W", "V", "O", "X", "Q", "E", "J", "E", "V", "R", "Z", "X", "G", "J"],  // 4
+    ["M", "X", "Q", "J", "V", "D", "M", "X", "E", "Q", "D", "S", "V", "W", "O", "A"],  // 5
+    ["S", "D", "O", "C", "K", "E", "R", "Z", "D", "I", "J", "E", "V", "W", "D", "I"],  // 6
+    ["A", "X", "Q", "J", "V", "A", "W", "Z", "X", "Q", "J", "N", "S", "W", "B", "D"],  // 7
     ["N", "Z", "X", "Q", "K", "J", "V", "W", "Z", "X", "Q", "X", "J", "V", "Z", "A"],  // 8
     ["T", "X", "Q", "F", "Z", "P", "R", "O", "D", "U", "C", "T", "I", "O", "N", "N"],  // 9
     ["H", "Z", "A", "L", "X", "I", "O", "V", "E", "R", "F", "L", "O", "W", "C", "X"],  // 10
@@ -30,7 +30,7 @@ const case4 = {
 
    wordList: [
     { word: "MONGODB",
-      cells: [{r:0,c:0},{r:1,c:1},{r:2,c:2},{r:3,c:3},{r:4,c:4},{r:5,c:5},{r:6,c:6}] },
+      cells: [{r:1,c:14},{r:2,c:14},{r:3,c:14},{r:4,c:14},{r:5,c:14},{r:6,c:14},{r:7,c:14}] },
     //         M        O        N        G        O        D        B
 
     { word: "KUBERNETES",
@@ -42,11 +42,11 @@ const case4 = {
     //         T        O(compartilhado MONGODB)  K        E        N
 
     { word: "GRAPHQL",
-      cells: [{r:2,c:3},{r:2,c:4},{r:2,c:5},{r:2,c:6},{r:2,c:7},{r:2,c:8},{r:2,c:9}] },
+      cells: [{r:2,c:2},{r:2,c:3},{r:2,c:4},{r:2,c:5},{r:2,c:6},{r:2,c:7},{r:2,c:8},] },
     //         G        R        A        P        H        Q        L
 
     { word: "EMERSON",
-      cells: [{r:1,c:11},{r:2,c:11},{r:3,c:11},{r:4,c:11},{r:5,c:11},{r:6,c:11},{r:7,c:11}] },
+      cells: [{r:6,c:5},{r:5,c:6},{r:4,c:7},{r:3,c:8},{r:2,c:9},{r:1,c:10},{r:0,c:11}] },
     //         E        M        E        R        S        O        N
 
     { word: "NADIA",
@@ -61,7 +61,7 @@ const case4 = {
     // grid[3][9]=W,grid[4][10]=V... letras livres, sem conflito
 
     { word: "DOCKER",
-      cells: [{r:6,c:0},{r:6,c:1},{r:6,c:2},{r:6,c:3},{r:6,c:4},{r:6,c:5}] },
+      cells: [{r:6,c:1},{r:6,c:2},{r:6,c:3},{r:6,c:4},{r:6,c:5},{r:6,c:6}] },
     //         D        O        C        K        E        R
 
     { word: "KAFKA",
@@ -116,12 +116,14 @@ const case4 = {
 
   suspects: ["EMERSON", "NADIA", "ANTHONY", "SABRINA"],
   languages: ["GRAPHQL", "PYTHON", "RUST", "GO"],
-  locations: ["KUBERNETES", "REDIS", "KAFKA", "DATABASE"],
+  locations: ["KUBERNETES", "REDES", "KAFKA", "DATABASE"],
 
+  hiddenAnswer: "INVASAO",
+  narrative:
+    "O caso mais complexo da série. Uma cadeia de falhas encobriu o verdadeiro culpado por dias. A vulnerabilidade estava na API exposta sem autenticação — alguém internamente sabia do buraco e explorou antes que fosse corrigido. As evidências foram cuidadosamente apagadas, mas os logs de REDE não mentem.",
   culprit: "EMERSON",
   language: "GRAPHQL",
   location: "KUBERNETES",
-
   hiddenClues: ["TOKEN", "LEAK"],
 
   explanation: `

@@ -162,9 +162,14 @@ const case1 = {
   suspects: ["ANTHONY", "SABRINA", "ISABELLE", "EMERSON"],
   languages: ["JAVA", "PYTHON", "GO", "RUST"],
   locations: ["BACK", "FRONT", "MOBILE", "DATABASE"],
+
+  hiddenAnswer: "SABOTAGEM",
+  narrative:
+    "Sabrina aproveitou acesso ao ambiente de PRODUÇÃO para fazer um commit de JAVA não autorizado no módulo de BACK. A falha de TESTING adequado no ambiente certo permitiu que 50.000 usuários tivessem seus dados expostos pela brecha no sistema de LOGIN. O histórico no GIT revelou o DEV real — mas Sabrina tentou apagar os rastros deletando o log de acesso.",
   culprit: "SABRINA",
   language: "JAVA",
   location: "BACK",
 };
 
 export default case1;
+

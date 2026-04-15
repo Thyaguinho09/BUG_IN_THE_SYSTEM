@@ -9,8 +9,8 @@ const case3 = {
     ["T", "F", "R", "O", "S", "C", "R", "I", "P", "T"],
     ["Y", "I", "R", "N", "T", "E", "R", "D", "G", "E"],
     ["P", "S", "A", "O", "H", "T", "G", "A", "R", "S"],
-    ["E", "A", "L", "E", "N", "A", "S", "I", "H", "T"],
-    ["S", "B", "M", "M", "E", "T", "A", "E", "N", "S"],
+    ["E", "A", "L", "E", "N", "A", "S", "I", "S", "T"],
+    ["S", "B", "M", "M", "E", "T", "A", "E", "N", "H"],
     ["C", "E", "E", "O", "N", "K", "E", "M", "R", "J"],
     ["R", "L", "W", "A", "B", "C", "O", "N", "E", "Y"],
     ["I", "L", "Q", "N", "O", "G", "Z", "M", "K", "O"],
@@ -30,10 +30,10 @@ const case3 = {
       ],
     },
     {
-      word: "FRONTEND",
+      word: "FRONT",
       cells: [
         { r: 0, c: 1 }, { r: 1, c: 2 }, { r: 2, c: 3 }, { r: 3, c: 4 },
-        { r: 4, c: 5 }, { r: 5, c: 6 }, { r: 6, c: 7 }, { r: 7, c: 8 },
+        { r: 4, c: 5 },
       ],
     },
     {
@@ -66,9 +66,9 @@ const case3 = {
 
     // ↓
     {
-      word: "TESTS",
+      word: "TEST",
       cells: [
-        { r: 0, c: 9 }, { r: 1, c: 9 }, { r: 2, c: 9 }, { r: 3, c: 9 }, { r: 4, c: 9 },
+        { r: 0, c: 9 }, { r: 1, c: 9 }, { r: 2, c: 9 }, { r: 3, c: 9 },
       ],
     },
 
@@ -104,6 +104,9 @@ const case3 = {
   languages: ["TYPESCRIPT", "PYTHON", "KOTLIN", "SWIFT"],
   locations: ["MOBILE", "BACKEND", "DOCKER", "FRONTEND"],
 
+  hiddenAnswer: "URGENCIA",
+  narrative:
+    "O deploy de sexta-feira nunca deveria ter ido para produção. Uma mudança de última hora no módulo FRONT rompeu o fluxo de autenticação. O responsável apressou o COMMIT sem rodar os testes, confiando demais na cobertura existente. O TIME todo pagou o preço no fim de semana.",
   culprit: "THYAGO",
   language: "TYPESCRIPT",
   location: "MOBILE",

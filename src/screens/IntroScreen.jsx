@@ -13,26 +13,21 @@ export default function IntroScreen({ onStart, progress }) {
 
       <div className="cards">
         {PUZZLES.map((p, i) => {
-
-          // 👉 verifica se está bloqueado
           const locked = i > progress;
+          const isTutorial = p.isTutorial;
 
           return (
             <div
               key={p.id}
-
-              // 👉 adiciona classe se estiver bloqueado
-              className={`card ${locked ? "locked" : ""}`}
-
-              // 👉 impede clique se bloqueado
+              className={`card ${locked ? "locked" : ""} ${isTutorial ? "card-tutorial" : ""}`}
               onClick={() => {
                 if (!locked) onStart(i);
               }}
             >
-              <div className="card-n">0{p.id}</div>
+              <div className="card-n">{isTutorial ? "00" : `0${p.id}`}</div>
 
-              <div 
-                className="card-d" 
+              <div
+                className="card-d"
                 style={{ color: p.diffColor }}
               >
                 {p.difficulty}
@@ -42,10 +37,11 @@ export default function IntroScreen({ onStart, progress }) {
               <div className="card-s">{p.subtitle}</div>
 
               <div className="card-wc">
-                {p.wordList.length} PALAVRAS · CLIQUE PARA JOGAR
+                {isTutorial
+                  ? "TUTORIAL · SEM TIMER · CLIQUE PARA COMEÇAR"
+                  : `${p.wordList.length} PALAVRAS · ⏱ 3 MIN · CLIQUE PARA JOGAR`}
               </div>
 
-              {/* 👉 overlay visual de bloqueado */}
               {locked && (
                 <div className="lock-overlay">
                   🔒 BLOQUEADO
@@ -57,7 +53,7 @@ export default function IntroScreen({ onStart, progress }) {
       </div>
 
       <div style={{ fontSize: ".6rem", color: "#0245ff", letterSpacing: "3px" }}>
-        ARRASTE NA GRADE PARA MARCAR PALAVRAS
+        ARRASTE NA GRADE PARA MARCAR PALAVRAS · DIAGONAL INCLUÍDA
       </div>
     </div>
   );

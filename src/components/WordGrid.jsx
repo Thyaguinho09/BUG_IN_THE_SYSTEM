@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { cellKey } from "../hooks/useGame";
 
-export default function WordGrid({ puzzle, foundSet, dragSet, flash, startDrag, moveDrag, endDrag }) {
+export default function WordGrid({ puzzle, foundSet, dragSet, flash, errorFlash, startDrag, moveDrag, endDrag }) {
   const gridRef = useRef(null);
 
   function cellFromPoint(x, y) {
@@ -43,26 +43,27 @@ export default function WordGrid({ puzzle, foundSet, dragSet, flash, startDrag, 
       {puzzle.grid.map((row, r) => (
         <div key={r} className="grid-row">
           {row.map((letter, c) => {
-            const k       = cellKey(r, c);
+            const k = cellKey(r, c);
             const isFound = foundSet.has(k);
-            const isSel   = dragSet.has(k) && !isFound;
+            const isSel = dragSet.has(k) && !isFound;
             const isFlash = flashCells.has(k);
             return (
               <div
                 key={k}
-                className={`cell${isFound ? " found" : ""}${isSel ? " sel" : ""}${isFlash ? " flash" : ""}`}
-                data-r={r}
+                className={cell${isFound ? " found" : ""} ${isSel ? " sel" : ""} ${isFlash ? " flash" : ""}}
+                data - r= { r }
                 data-c={c}
-                onMouseDown={() => startDrag(r, c)}
-                onMouseEnter={() => moveDrag(r, c)}
-                onMouseUp={endDrag}
+          onMouseDown={() => startDrag(r, c)}
+          onMouseEnter={() => moveDrag(r, c)}
+          onMouseUp={endDrag}
               >
-                <span className="cl">{letter}</span>
-              </div>
-            );
-          })}
+          <span className="cl">{letter}</span>
         </div>
-      ))}
+      );
+          })}
     </div>
+  ))
+}
+    </div >
   );
 }
