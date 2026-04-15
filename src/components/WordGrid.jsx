@@ -50,20 +50,20 @@ export default function WordGrid({ puzzle, foundSet, dragSet, flash, errorFlash,
             return (
               <div
                 key={k}
-                className={cell${isFound ? " found" : ""} ${isSel ? " sel" : ""} ${isFlash ? " flash" : ""}}
-                data - r= { r }
+                className={`cell${isFound ? " found" : ""}${isSel ? " sel" : ""}${isFlash ? " flash" : ""}`}
+                data-r={r}
                 data-c={c}
-          onMouseDown={() => startDrag(r, c)}
-          onMouseEnter={() => moveDrag(r, c)}
-          onMouseUp={endDrag}
+                onMouseDown={() => startDrag(r, c)}
+                onMouseEnter={() => moveDrag(r, c)}
+                onMouseUp={endDrag}
               >
-          <span className="cl">{letter}</span>
-        </div>
-      );
+                <span className="cl">{letter}</span>
+              </div>
+            );
           })}
+        </div>
+      ))}
     </div>
-  ))
-}
-    </div >
   );
 }
+
