@@ -182,7 +182,7 @@ body::after {
 }
 
 .g-sub {
-  color: #0245FF;
+  color: #1e3d55;
   font-size: .72rem;
   margin-top: .2rem;
 }
@@ -211,7 +211,7 @@ body::after {
   font-family: 'Orbitron', sans-serif;
   font-size: .52rem;
   letter-spacing: 3px;
-  color: #0245FF;
+  color: #1e3d55;
   margin-bottom: .7rem;
   padding-bottom: .35rem;
   border-bottom: 1px solid var(--brd);
@@ -926,4 +926,112 @@ body::after {
 .card-tutorial {
   border-color: rgba(0, 229, 255, .5) !important;
   box-shadow: 0 0 20px rgba(0, 229, 255, .08);
+}
+/* Adicione ao final de global.css */
+
+/* Score Display */
+.score-display {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(0, 229, 255, 0.08);
+  border: 1px solid var(--c);
+  padding: 0.4rem 0.8rem;
+  border-radius: 2px;
+}
+
+.score-icon {
+  font-size: 1rem;
+}
+
+.score-value {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--y);
+}
+
+.score-label {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.5rem;
+  letter-spacing: 2px;
+  color: #1e3d55;
+}
+
+/* Hint Button */
+.hint-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(255, 214, 0, 0.1);
+  border: 1px solid var(--y);
+  color: var(--y);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.6rem;
+  letter-spacing: 2px;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.hint-btn:hover:not(:disabled) {
+  background: var(--y);
+  color: #05080f;
+}
+
+.hint-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.hint-icon {
+  font-size: 0.8rem;
+}
+
+/* Error Feedback */
+.error-feedback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: rgba(255, 45, 85, 0.15);
+  border: 1px solid var(--r);
+  padding: 0.5rem;
+  animation: shk 0.4s ease;
+}
+
+.error-icon {
+  font-size: 1rem;
+  color: var(--r);
+}
+
+.error-word {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--r);
+  letter-spacing: 2px;
+}
+
+.error-msg {
+  font-size: 0.65rem;
+  color: #ff6b8a;
+}
+
+/* Chip Points */
+.chip-points {
+  font-size: 0.45rem;
+  color: var(--g);
+  margin-left: 0.3rem;
+}
+
+/* Cell Error Animation (opcional - células piscam vermelho) */
+.cell.error-flash {
+  animation: errorFlash 0.3s ease-in-out;
+}
+
+@keyframes errorFlash {
+  0% { background: rgba(255, 45, 85, 0); border-color: var(--r); }
+  50% { background: rgba(255, 45, 85, 0.4); border-color: var(--r); box-shadow: 0 0 8px var(--r); }
+  100% { background: rgba(255, 45, 85, 0); border-color: #0d1e2e; }
 }
