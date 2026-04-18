@@ -1,6 +1,6 @@
 import { useState } from "react";
-import RankingModal from "../components/RankingModal";
 import PUZZLES from "../data/index";
+import RankingModal from "./RankingModal";
 
 export default function IntroScreen({ onStart, progress, ranking }) {
   const [showRank, setShowRank] = useState(false);
