@@ -1,6 +1,10 @@
+import { useState } from "react";
+import RankingModal from "../components/RankingModal";
 import PUZZLES from "../data/index";
 
-export default function IntroScreen({ onStart, progress }) {
+export default function IntroScreen({ onStart, progress, ranking }) {
+  const [showRank, setShowRank] = useState(false);
+
   return (
     <div className="intro">
       <div className="logo">
@@ -11,6 +15,7 @@ export default function IntroScreen({ onStart, progress }) {
         CAÇA-PALAVRAS DE MISTÉRIO EM TI
       </div>
 
+      {/* 🔹 Cards de Puzzle */}
       <div className="cards">
         {PUZZLES.map((p, i) => {
           const locked = i > progress;
@@ -19,17 +24,18 @@ export default function IntroScreen({ onStart, progress }) {
           return (
             <div
               key={p.id}
-              className={`card ${locked ? "locked" : ""} ${isTutorial ? "card-tutorial" : ""}`}
+              className={`card ${locked ? "locked" : ""} ${
+                isTutorial ? "card-tutorial" : ""
+              }`}
               onClick={() => {
                 if (!locked) onStart(i);
               }}
             >
-              <div className="card-n">{isTutorial ? "00" : `0${p.id}`}</div>
+              <div className="card-n">
+                {isTutorial ? "00" : `0${p.id}`}
+              </div>
 
-              <div
-                className="card-d"
-                style={{ color: p.diffColor }}
-              >
+              <div className="card-d" style={{ color: p.diffColor }}>
                 {p.difficulty}
               </div>
 
@@ -43,16 +49,38 @@ export default function IntroScreen({ onStart, progress }) {
               </div>
 
               {locked && (
-                <div className="lock-overlay">
-                  🔒 BLOQUEADO
-                </div>
+                <div className="lock-overlay">🔒 BLOQUEADO</div>
               )}
             </div>
           );
         })}
       </div>
 
-      <div style={{ fontSize: ".6rem", color: "#0245ff", letterSpacing: "3px" }}>
+      {/* 🔹 Botão de Ranking */}
+      <div className="intro-actions">
+        <button
+          className="btn-ranking"
+          onClick={() => setShowRank(true)}
+        >
+          <span className="icon">📊</span> VER RANKING GLOBAL
+        </button>
+      </div>
+
+      {/* 🔹 Modal de Ranking */}
+      <RankingModal
+        isOpen={showRank}
+        onClose={() => setShowRank(false)}
+        ranking={ranking}
+      />
+
+      {/* 🔹 Rodapé */}
+      <div
+        style={{
+          fontSize: ".6rem",
+          color: "#0245ff",
+          letterSpacing: "3px",
+        }}
+      >
         ARRASTE NA GRADE PARA MARCAR PALAVRAS · DIAGONAL INCLUÍDA
       </div>
     </div>
