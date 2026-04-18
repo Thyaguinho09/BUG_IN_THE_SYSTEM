@@ -1,12 +1,13 @@
 import { useState } from "react";
 import PUZZLES from "../data/index";
-import RankingModal from "./RankingModal";
+import RankingModal from "../components/RankingModal";
 
 export default function IntroScreen({ onStart, progress, ranking }) {
-  const [showRank, setShowRank] = useState(false);
+  const [isRankOpen, setIsRankOpen] = useState(false);
 
   return (
     <div className="intro">
+      {/* 🔹 Logo principal */}
       <div className="logo">
         BUG<em> In The System</em>
       </div>
@@ -56,11 +57,11 @@ export default function IntroScreen({ onStart, progress, ranking }) {
         })}
       </div>
 
-      {/* 🔹 Botão de Ranking */}
-      <div className="intro-actions">
+      {/* 🔹 Ações (unificado dos dois códigos) */}
+      <div className="actions-bar intro-actions">
         <button
-          className="btn-ranking"
-          onClick={() => setShowRank(true)}
+          className="btn-ranking btn-ranking-main"
+          onClick={() => setIsRankOpen(true)}
         >
           <span className="icon">📊</span> VER RANKING GLOBAL
         </button>
@@ -68,8 +69,8 @@ export default function IntroScreen({ onStart, progress, ranking }) {
 
       {/* 🔹 Modal de Ranking */}
       <RankingModal
-        isOpen={showRank}
-        onClose={() => setShowRank(false)}
+        isOpen={isRankOpen}
+        onClose={() => setIsRankOpen(false)}
         ranking={ranking}
       />
 
