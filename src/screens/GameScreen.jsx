@@ -11,62 +11,80 @@ import HintButton from "../components/HintButton";
 import ScoreDisplay from "../components/ScoreDisplay";
 import ErrorFeedback from "../components/ErrorFeedback";
 
-// Time limit in seconds per puzzle (tutorial = unlimited)
-const TIME_LIMIT = 180; // 3 minutes for real cases
+const TIME_LIMIT = 180; // 3 minutos
 
-export default function GameScreen({ puzzle, onBack, onSolve, onTimeout }) {
+export default function GameScreen({ puzzle, onBack, onSolve, onTimeout, playerStats }) {
   const [answer, setAnswer] = useState({ culprit: "", language: "", location: "" });
   const [wrongAns, setWrongAns] = useState(false);
   const [showHint, setShowHint] = useState(false);
   const [timeLeft, setTimeLeft] = useState(puzzle?.isTutorialOnly ? null : TIME_LIMIT);
   const [timedOut, setTimedOut] = useState(false);
   const [showTutorialOverlay, setShowTutorialOverlay] = useState(puzzle?.isTutorial ?? false);
+  const [startTime] = useState(Date.now());
+  const gameCompleted = useRef(false);
 
-  const { foundWords, dragCells, dragging, flash, errorFlash, foundSet, dragSet, allFound,
-    wrongCount, hiddenWordFound, score, hintsUsed, startDrag, moveDrag, endDrag,
-    registerWrongVerdict, useHint } = useGame(puzzle);
-
-  // Reset when puzzle changes
-  useEffect(() => {
-    setAnswer({ culprit: "", language: "", location: "" });
-    setWrongAns(false);
-    setShowHint(false);
-    setTimedOut(false);
-    setTimeLeft(puzzle?.isTutorialOnly ? null : TIME_LIMIT);
-    setShowTutorialOverlay(puzzle?.isTutorial ?? false);
-  }, [puzzle?.id]);
+  const {
+    foundWords,
+    dragCells,
+    flash,
+    errorFlash,
+    foundSet,
+    dragSet,
+    allFound,
+    wrongCount,
+    hiddenWordFound,
+    score,
+    hintsUsed,
+    wrongAttempts,
+    startDrag,
+    moveDrag,
+    endDrag,
+    registerWrongVerdict,
+    useHint,
+    resetProgress
+  } = useGame(puzzle);
 
   // Timer
   useEffect(() => {
     if (timeLeft === null || timedOut || allFound) return;
+
     if (timeLeft <= 0) {
       setTimedOut(true);
       if (onTimeout) onTimeout();
       return;
     }
+
     const t = setTimeout(() => setTimeLeft(t => t - 1), 1000);
     return () => clearTimeout(t);
   }, [timeLeft, timedOut, allFound, onTimeout]);
 
-  // Show hint after 3 wrong attempts (sistema original)
+  // Auto-complete tutorial
+  useEffect(() => {
+    if (puzzle?.isTutorialOnly && allFound && !gameCompleted.current) {
+      gameCompleted.current = true;
+      setTimeout(() => onSolve(score, hintsUsed, wrongAttempts, TIME_LIMIT - timeLeft), 1200);
+    }
+  }, [allFound, puzzle?.isTutorialOnly, onSolve, score, hintsUsed, wrongAttempts, timeLeft]);
+
+  // Dica automática após 3 erros
   useEffect(() => {
     if (wrongCount >= 3) setShowHint(true);
   }, [wrongCount]);
 
-  // Tutorial: auto-advance when all words found
-  useEffect(() => {
-    if (puzzle?.isTutorialOnly && allFound) {
-      setTimeout(() => onSolve(), 1200);
-    }
-  }, [allFound, puzzle?.isTutorialOnly]);
-
   function handleSubmit() {
+    if (gameCompleted.current) return;
+    
     if (
       answer.culprit === puzzle.culprit &&
       answer.language === puzzle.language &&
       answer.location === puzzle.location
     ) {
-      onSolve();
+      gameCompleted.current = true;
+      const timeSpent = TIME_LIMIT - (timeLeft ?? 0);
+      // Bônus por tempo restante
+      const timeBonus = timeLeft ? Math.floor(timeLeft / 10) * 5 : 0;
+      const finalScore = score + timeBonus;
+      onSolve(finalScore, hintsUsed, wrongAttempts, timeSpent);
     } else {
       setWrongAns(true);
       registerWrongVerdict();
@@ -78,11 +96,6 @@ export default function GameScreen({ puzzle, onBack, onSolve, onTimeout }) {
   const secs = timeLeft !== null ? String(timeLeft % 60).padStart(2, "0") : null;
   const timerCritical = timeLeft !== null && timeLeft <= 30;
 
-  // Hint: reveal one clue based on wrongCount (sistema original)
-  const hintClue = showHint && puzzle.clues && !puzzle.isTutorialOnly
-    ? puzzle.clues[Math.min(wrongCount - 3, puzzle.clues.length - 1)]
-    : null;
-
   if (timedOut) {
     return (
       <div className="game">
@@ -91,10 +104,7 @@ export default function GameScreen({ puzzle, onBack, onSolve, onTimeout }) {
           <div className="timeout-title">TEMPO ESGOTADO</div>
           <div className="timeout-sub">O caso ficou sem solução. Os rastros se perderam.</div>
           <div className="btn-row" style={{ marginTop: "1.5rem" }}>
-            <button className="btn2 a" onClick={() => {
-              setTimedOut(false);
-              setTimeLeft(TIME_LIMIT);
-            }}>↺ TENTAR NOVAMENTE</button>
+            <button className="btn2 a" onClick={() => window.location.reload()}>↺ TENTAR NOVAMENTE</button>
             <button className="btn2 b" onClick={onBack}>← TODOS OS CASOS</button>
           </div>
         </div>
@@ -104,58 +114,40 @@ export default function GameScreen({ puzzle, onBack, onSolve, onTimeout }) {
 
   return (
     <div className="game">
-      {/* Tutorial overlay */}
       {showTutorialOverlay && (
         <TutorialOverlay onClose={() => setShowTutorialOverlay(false)} />
       )}
 
-      {/* Hidden word popup */}
-      {hiddenWordFound && (
-        <HiddenWordPopup word={puzzle.hiddenAnswer} />
-      )}
+      {hiddenWordFound && <HiddenWordPopup word={puzzle.hiddenAnswer} />}
 
-      {/* Header */}
       <div className="g-hdr">
-        <button className="back" onClick={onBack}>← CASOS</button>
+        <button className="back-btn" onClick={onBack}>← CASOS</button>
+
         <div
           className="g-badge"
           style={{
             background: puzzle.diffColor + "18",
             color: puzzle.diffColor,
-            border: 1px solid ${puzzle.diffColor}44,
+            border: `1px solid ${puzzle.diffColor}44`
           }}
         >
-          {puzzle.isTutorial ? "TUTORIAL" : CASO ${puzzle.id}} · {puzzle.difficulty}
+          {puzzle.isTutorial ? "TUTORIAL" : `CASO ${puzzle.id}`} • {puzzle.difficulty}
         </div>
+
         <div className="g-title">{puzzle.title}</div>
         <div className="g-sub">{puzzle.subtitle}</div>
 
-        {/* Timer */}
         {timeLeft !== null && (
-          <div className={g-timer${timerCritical ? " critical" : ""}}>
+          <div className={`g-timer${timerCritical ? " critical" : ""}`}>
             ⏱ {mins}:{secs}
           </div>
         )}
       </div>
 
-      {/* Layout */}
       <div className="layout">
-        {/* Left: grid */}
         <div>
-          <div className="panel" style={{ display: "inline-block" }}>
+          <div className="panel">
             <div className="ptitle">▶ GRADE DE EVIDÊNCIAS</div>
-
-            {/* Tutorial direction arrows */}
-            {puzzle.isTutorial && (
-              <div className="tutorial-arrows">
-                {puzzle.wordList.map(w => (
-                  <span key={w.word} className="tutorial-arrow-badge">
-                    <span className="t-arrow">{w.tutorialHint}</span>
-                    <span className="t-word">{w.word}</span>
-                  </span>
-                ))}
-              </div>
-            )}
 
             <WordGrid
               puzzle={puzzle}
@@ -167,14 +159,13 @@ export default function GameScreen({ puzzle, onBack, onSolve, onTimeout }) {
               moveDrag={moveDrag}
               endDrag={endDrag}
             />
+
             <ProgressBar found={foundWords.length} total={puzzle.wordList.length} />
             <WordChips wordList={puzzle.wordList} foundWords={foundWords} allFound={allFound} />
           </div>
         </div>
 
-        {/* Right: clues + verdict */}
         <div style={{ display: "flex", flexDirection: "column", gap: ".8rem" }}>
-          {/* Score e Dica - NOVOS COMPONENTES */}
           {!puzzle.isTutorial && !puzzle.isTutorialOnly && (
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
               <ScoreDisplay score={score} />
@@ -182,19 +173,9 @@ export default function GameScreen({ puzzle, onBack, onSolve, onTimeout }) {
             </div>
           )}
 
-          {/* Feedback de erro - NOVO COMPONENTE */}
           <ErrorFeedback errorWord={errorFlash} />
 
           <ClueList clues={puzzle.clues} />
-
-          {/* Hint box after multiple errors (sistema original) */}
-          {hintClue && !puzzle.isTutorialOnly && (
-            <div className="hint-box">
-              <div className="hint-title">💡 DICA DO SISTEMA</div>
-              <div className="hint-text">{hintClue}</div>
-              <button className="hint-close" onClick={() => setShowHint(false)}>✕</button>
-            </div>
-          )}
 
           {!puzzle.isTutorialOnly && (
             <VerdictForm
